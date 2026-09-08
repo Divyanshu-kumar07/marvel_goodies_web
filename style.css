@@ -5,16 +5,16 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    color: #222;
+    background-color:#111827;
+    color: #f8f5e9;
 }
 
 
 /* ---------- HEADER ---------- */
 
 header {
-    background-color: #172554;
-    color: white;
+    background-color: #0b132b;
+    color: #f8f5e9;
 
     padding: 18px 8%;
 
@@ -26,6 +26,7 @@ header {
 header h1 {
     margin: 0;
     font-size: 30px;
+    color: #e5b93f;
 }
 
 nav a {
@@ -46,17 +47,17 @@ nav a:hover {
     text-align: center;
     padding: 45px 20px;
 
-    background-color: white;
+    background-color: #111827;
 }
 
 .hero h2 {
     margin: 0 0 10px;
     font-size: 32px;
-    color: #172554;
+    color: #e5b93f;
 }
 
 .hero p {
-    color: #666;
+    color: #a7b0be;
 }
 
 
@@ -69,7 +70,7 @@ nav a:hover {
 .products > h2 {
     text-align: center;
     margin-bottom: 30px;
-    color: #172554;
+    color: #e5b93f;
 }
 
 
@@ -86,7 +87,7 @@ nav a:hover {
 .product-card {
     width: 250px;
 
-    background-color: white;
+    background-color: #1f2937;
 
     padding: 20px;
 
@@ -94,7 +95,7 @@ nav a:hover {
 
     border-radius: 12px;
 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
 
     transition: box-shadow 0.3s ease;
 }
@@ -107,7 +108,7 @@ nav a:hover {
     margin: 0 auto 15px;
 
     border-radius: 10px;
-    background-color: #eef2ff;
+    background-color: #111827;
 
     display: flex;
     justify-content: center;
@@ -126,14 +127,14 @@ nav a:hover {
 /* Product Name */
 .product-card h3 {
     margin: 10px 0 5px;
-    color: #172554;
+    color: #f8f5e9;
 }
 
 
 /* Category */
 .category {
     margin: 5px 0;
-    color: #777;
+    color: #a7b0be;
     font-size: 14px;
 }
 
@@ -142,7 +143,7 @@ nav a:hover {
 .price {
     font-size: 19px;
     font-weight: bold;
-    color: #2563eb;
+    color: #e5b93f;
 }
 
 
@@ -150,7 +151,7 @@ nav a:hover {
 button {
     border: none;
 
-    background-color: #172554;
+    background-color: #a6192e;
     color: white;
 
     padding: 10px 20px;
@@ -161,7 +162,7 @@ button {
 }
 
 button:hover {
-    background-color: #2563eb;
+    background-color: #d62839;
 }
 
 
@@ -170,7 +171,7 @@ button:hover {
 .product-card:hover {
     animation: cardHover 0.5s ease forwards;
 
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -199,9 +200,9 @@ footer {
 
     text-align: center;
 
-    background-color: #172554;
+    background-color: #0b132b;
 
-    color: white;
+    color: #a7b0be;
 }
 
 
