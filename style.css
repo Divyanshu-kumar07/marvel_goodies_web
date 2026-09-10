@@ -5,19 +5,19 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color:#111827;
+    background-color:#171831;
     color: #f8f5e9;
 }
 
 
-/* ---------- HEADER ---------- */
+
 
 header {
     background-color: #0b132b;
     color: #f8f5e9;
 
     padding: 18px 8%;
-
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,6 +27,9 @@ header h1 {
     margin: 0;
     font-size: 30px;
     color: #e5b93f;
+    padding: 0 10px;
+    background-color: black;
+    border: #f8f5e9 2px solid;
 }
 
 nav a {
@@ -41,7 +44,7 @@ nav a:hover {
 }
 
 
-/* ---------- HERO ---------- */
+
 
 .hero {
     text-align: center;
@@ -53,7 +56,7 @@ nav a:hover {
 .hero h2 {
     margin: 0 0 10px;
     font-size: 32px;
-    color: #e5b93f;
+    color: #e3ff47;
 }
 
 .hero p {
@@ -61,7 +64,7 @@ nav a:hover {
 }
 
 
-/* ---------- PRODUCTS ---------- */
+
 
 .products {
     padding: 35px 6%;
@@ -70,11 +73,11 @@ nav a:hover {
 .products > h2 {
     text-align: center;
     margin-bottom: 30px;
-    color: #e5b93f;
+    color: #ebeb35;
 }
 
 
-/* Flexbox */
+
 .product-container {
     display: flex;
     justify-content: center;
@@ -83,7 +86,7 @@ nav a:hover {
 }
 
 
-/* Product Card */
+
 .product-card {
     width: 250px;
 
@@ -101,7 +104,7 @@ nav a:hover {
 }
 
 
-/* Product Image */
+
 .product-image {
     width: 150px;
     height: 150px;
@@ -124,14 +127,14 @@ nav a:hover {
 }
 
 
-/* Product Name */
+
 .product-card h3 {
     margin: 10px 0 5px;
     color: #f8f5e9;
 }
 
 
-/* Category */
+
 .category {
     margin: 5px 0;
     color: #a7b0be;
@@ -139,15 +142,15 @@ nav a:hover {
 }
 
 
-/* Price */
+
 .price {
     font-size: 19px;
     font-weight: bold;
-    color: #e5b93f;
+    color: #f2ff01;
 }
 
 
-/* Button */
+
 button {
     border: none;
 
@@ -162,11 +165,10 @@ button {
 }
 
 button:hover {
-    background-color: #d62839;
+    background-color: #35a1e9;
 }
 
 
-/* ---------- KEYFRAME ANIMATION ---------- */
 
 .product-card:hover {
     animation: cardHover 0.5s ease forwards;
@@ -191,8 +193,6 @@ button:hover {
 }
 
 
-/* ---------- FOOTER ---------- */
-
 footer {
     margin-top: 30px;
 
@@ -206,7 +206,7 @@ footer {
 }
 
 
-/* ---------- MEDIA QUERIES ---------- */
+
 
 
 /* Tablet */
