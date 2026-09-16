@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "name": "Iron Man",
+        "price": 999,
+        "image": "iron_man1.jpeg"
+    },
+    {
+        "id": 2,
+        "name": "Dr. Doom",
+        "price": 1299,
+        "image": "doom.jpeg"
+    },
+    {
+        "id": 3,
+        "name": "Spider-Man",
+        "price": 1199,
+        "image": "spiderman.jpeg"
+    },
+    {
+        "id": 4,
+        "name": "Captain America",
+        "price": 1399,
+        "image": "cap.jpeg"
+    },
+    {
+        "id": 5,
+        "name": "Thor",
+        "price": 1199,
+        "image": "thor.jpeg"
+    },
+    {
+        "id": 6,
+        "name": "Thanos",
+        "price": 1099,
+        "image": "thanos.jpeg"
+    },
+    {
+        "id": 7,
+        "name": "Wolverine",
+        "price": 1099,
+        "image": "wolverine.jpeg"
+    },
+    {
+        "id": 8,
+        "name": "Deadpool",
+        "price": 2099,
+        "image": "deadpool.jpeg"
+    }
+]
