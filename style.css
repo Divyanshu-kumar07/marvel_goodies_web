@@ -441,6 +441,7 @@ nav a:hover {
             .55
 
         );
+        object-fit: fill;
 
     transform: rotate(4deg);
 
@@ -453,10 +454,9 @@ nav a:hover {
 
     height: 100%;
 
-    object-fit: cover;
+    object-fit: contain;
 
-    object-position: center;
-
+    
 }
 
 
