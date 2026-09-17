@@ -2,156 +2,182 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DIV-Mart | Marvel Action Figures</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FIGUREVERSE | Premium Collectibles</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
 </head>
-
-
 
 
 <body>
 
-    
-    <header>
-        <h1>DIV-Mart</h1>
 
-       <nav>
-            <a href="#Home">Home</a>
-            <a href="#Products">Products</a>
-            <a href="#About">About</a>
-            <a href="#Contact">Contact</a>
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <a class="logo" href="#home">
+
+            <span class="logo-mark">
+                F
+            </span>
+
+            <div>
+
+                <h2>
+                    FIGURE<span>VERSE</span>
+                </h2>
+
+                <small>
+                    COLLECT • DISPLAY • REPEAT
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <nav>
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#figures">
+                Figures
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
         </nav>
+
+
+        <div class="nav-actions">
+
+            <button
+                onclick="focusSearch()"
+                class="icon-btn"
+            >
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </button>
+
+
+            <button
+                onclick="openCart()"
+                class="cart-btn"
+            >
+
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                <span id="cartCount">
+                    0
+                </span>
+
+            </button>
+
+        </div>
+
     </header>
 
 
-   
-    <section class="hero">
-        <h2>Marvel Action Figures</h2>
 
-        <p>
-            Collect your favourite Marvel superheroes in your own collection.
-        </p>
-    </section>
+    <!-- ================= HERO ================= -->
 
+    <section
+        class="hero"
+        id="home"
+    >
 
-    
-    <section class="products">
+        <div class="hero-content">
 
-        <h2><u>Featured Products</u></h2>
-
-        <div class="product-container">
-
-            
-
-            <!-- Product 1 -->
-            <div class="product-card">
-                <div class="product-image"><img src="iron_man1.jpeg" alt="Iron Man"></a></div>
-
-                <h3>Iron Man</h3>
-
-                <p class="category">Marvel Action Figure</p>
-                <p>Huge offer!</p>
-                <p class="price"><del>Rs.2,499</del> <strong>Rs.999</strong></p>
-
-                <button>Add to Cart</button>
-            </div>
-            <!-- Product 2 -->
-             <div class="product-card">
-                <div class="product-image"><img src="doom.jpeg" alt="Dr.Doom"></div>
-
-                <h3>Dr.Doom</h3>
-
-                <p class="category">Marvel Action Figure</p>
-                <p>Lowest Price!</p>
-
-                <p class="price"><del>Rs.2,599</del> <strong>Rs.1,299</strong></p>
-
-                <button>Add to Cart</button>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="product-card">
-                <div class="product-image"><img src="spiderman.jpeg" alt="Spider-Man"></div>
-
-                <h3>Spider-Man</h3>
-
-                <p class="category">Marvel Action Figure</p>
-                <p>Huge offer!</p>
-                <p class="price"><del>Rs.2,499</del> <strong>Rs.1,199</strong></p>
-
-                <button>Add to Cart</button>
-            </div>
+            <p class="hero-label">
+                THE COLLECTOR'S DESTINATION
+            </p>
 
 
-            <!-- Product 4 -->
-            <div class="product-card">
-                <div class="product-image"><img src="cap.jpeg" alt="Captain America"></div>
+            <h1>
 
-                <h3>Captain America</h3>
-                
-                <p class="category">Marvel Action Figure</p>
-                <p>Bestseller!</p>
-                <p class="price"><del>Rs.2,499</del> <strong>Rs.1,399</strong></p>
+                Heroes.
 
-                <button>Add to Cart</button>
-            </div>
+                <br>
 
+                <span>
+                    Legends.
+                </span>
 
-            <!-- Product 5 -->
-            <div class="product-card">
-                <div class="product-image"><img src="thor.jpeg" alt="Thor"></div>
+                <br>
 
-                <h3>Thor</h3>
+                Icons.
 
-                <p class="category">Marvel Action Figure</p>
-                <p>Lowest Price Ever!</p>
-                <p class="price"><del>Rs.2,199</del> <strong>Rs.1,199</strong></p>
-
-                <button>Add to Cart</button>
-            </div>
+            </h1>
 
 
-            <!-- Product 6 -->
-            <div class="product-card">
-                <div class="product-image"><img src="thanos.jpeg" alt="Thanos"></div>
+            <p class="hero-description">
 
-                <h3>Thanos</h3>
+                Build a collection worthy of your shelf
+                with premium character figures selected
+                for fans, collectors and true enthusiasts.
 
-                <p class="category">Marvel Action Figure</p>
-                <p>Huge offer!</p>
-                <p class="price"><del>Rs.2,199</del> <strong>Rs.1,099</strong></p>
-                
-                <button>Add to Cart</button>
-            </div>
+            </p>
 
 
-            <!-- Product 7 -->
-            <div class="product-card">
-                <div class="product-image"><img src="wolverine.jpeg" alt="Wolverine"></div>
+            <button
+                class="hero-btn"
+                onclick="scrollToProducts()"
+            >
 
-                <h3>Wolverine</h3>
+                Explore Figures
 
-                <p class="category">Marvel Action Figure</p>
-                <p>Bestseller!</p>
-                <p class="price"><del>Rs.2,099</del> <strong>Rs.1,099</strong></p>
+                <i class="fa-solid fa-arrow-right"></i>
 
-                <button>Add to Cart</button>
-            </div>
-            <!-- Product 8 -->
-             <div class="product-card">
-                <div class="product-image"><img src="deadpool.jpeg" alt="Deadpool"></div>
+            </button>
 
-                <h3>Deadpool</h3>
+        </div>
 
-                <p class="category">Marvel Action Figure</p>
-                <p>Buy 1 Get 1 Free!</p>
-                <p class="price"><del>Rs.2,499</del> <strong>Rs.2,099</strong></p>
 
-                <button>Add to Cart</button>
+
+        <div class="hero-art">
+
+            <div class="glow"></div>
+
+
+            <div class="hero-card">
+
+                <img
+                    src="deadpool.jpeg"
+                    alt="Featured Deadpool collectible"
+                >
+
+
+                <div class="hero-card-overlay">
+
+                    <span>
+                        FEATURED COLLECTIBLE
+                    </span>
+
+                    <strong>
+                        DEADPOOL
+                    </strong>
+
+                </div>
+
             </div>
 
         </div>
@@ -159,12 +185,379 @@
     </section>
 
 
-    
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div>
+
+            <strong>
+                8
+            </strong>
+
+            <span>
+                Featured Figures
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                4
+            </strong>
+
+            <span>
+                Character Lines
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                100%
+            </strong>
+
+            <span>
+                Collector Focused
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                24/7
+            </strong>
+
+            <span>
+                Online Store
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CATEGORIES ================= -->
+
+    <section class="categories">
+
+        <div class="section-heading">
+
+            <p>
+                EXPLORE THE COLLECTION
+            </p>
+
+            <h2>
+                Choose Your Universe
+            </h2>
+
+        </div>
+
+
+        <div class="category-container">
+
+            <button
+                class="category active"
+                onclick="filterCategory('All', this)"
+            >
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                All
+
+            </button>
+
+
+            <button
+                class="category"
+                onclick="filterCategory('Marvel', this)"
+            >
+
+                <i class="fa-solid fa-bolt"></i>
+
+                Marvel
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <section
+        class="products-section"
+        id="figures"
+    >
+
+        <div class="products-header">
+
+
+            <div>
+
+                <p class="hero-label">
+                    YOUR NEXT DISPLAY PIECE
+                </p>
+
+                <h2>
+                    Find Your Next Icon
+                </h2>
+
+            </div>
+
+
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search figures..."
+                    oninput="searchProducts()"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <div
+            id="productGrid"
+            class="product-grid"
+        ></div>
+
+    </section>
+
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section
+        class="about"
+        id="about"
+    >
+
+        <div class="about-symbol">
+
+            <i class="fa-solid fa-crown"></i>
+
+        </div>
+
+
+        <div>
+
+            <p class="hero-label">
+                BUILT FOR COLLECTORS
+            </p>
+
+
+            <h2>
+
+                Your shelf.
+
+                <span>
+                    Your universe.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                FIGUREVERSE is a frontend shopping
+                experience designed around character
+                collectibles, clean product discovery
+                and a smooth cart.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CART OVERLAY ================= -->
+
+    <div
+        id="cartOverlay"
+        class="overlay"
+        onclick="closeCart()"
+    ></div>
+
+
+
+    <!-- ================= CART ================= -->
+
+    <aside
+        id="cartSidebar"
+        class="cart-sidebar"
+    >
+
+
+        <div class="cart-header">
+
+            <div>
+
+                <p class="hero-label">
+                    YOUR COLLECTION
+                </p>
+
+                <h2>
+                    Shopping Cart
+                </h2>
+
+            </div>
+
+
+            <button
+                class="close-cart"
+                onclick="closeCart()"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <div
+            id="cartItems"
+            class="cart-items"
+        ></div>
+
+
+
+        <div class="cart-bottom">
+
+
+            <div class="coupon">
+
+                <input
+                    id="couponInput"
+                    type="text"
+                    placeholder="Coupon: COLLECT10"
+                >
+
+
+                <button onclick="applyCoupon()">
+                    Apply
+                </button>
+
+            </div>
+
+
+            <p id="couponMessage"></p>
+
+
+
+            <div class="price-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <strong id="subtotal">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+
+            <div class="price-row">
+
+                <span>
+                    Discount
+                </span>
+
+                <strong id="discount">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+
+            <div class="price-row total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong id="total">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+
+            <button
+                class="checkout-btn"
+                onclick="checkout()"
+            >
+
+                Secure Checkout
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
     <footer>
-        <p>© 2026 DIV-Mart | Marvel Collection</p>
+
+        <div class="footer-logo">
+
+            FIGURE<span>VERSE</span>
+
+        </div>
+
+
+        <p>
+            © 2026 FIGUREVERSE — Made for collectors.
+        </p>
+
+
+        <div class="socials">
+
+            <i class="fa-brands fa-instagram"></i>
+
+            <i class="fa-brands fa-x-twitter"></i>
+
+            <i class="fa-brands fa-discord"></i>
+
+        </div>
+
     </footer>
+
+
 
     <script src="script.js"></script>
 
 </body>
+
 </html>

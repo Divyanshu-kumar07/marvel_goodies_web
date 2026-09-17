@@ -1,170 +1,245 @@
-// ============================================================
-// DIV-Mart - Marvel Shopping Cart & Checkout
-// ============================================================
-
-const TAX_RATE = 0.08;
-const PROMO_CODE = "SAVE20";
-const DISCOUNT_RATE = 0.20;
+// ==========================================
+// VARIABLES
+// ==========================================
 
 let products = [];
-let cart = JSON.parse(localStorage.getItem("divMartCart")) || [];
-let promoApplied = localStorage.getItem("divMartPromo") === "true";
+
+let cart = [];
+
+let discountApplied = false;
 
 
-// ============================================================
-// LOAD PRODUCTS FROM products.json
-// ============================================================
+// ==========================================
+// LOAD PRODUCTS FROM JSON
+// ==========================================
 
-async function loadProducts() {
-    try {
-        const response = await fetch("products.json");
+fetch("products.json")
+
+    .then(response => {
 
         if (!response.ok) {
-            throw new Error("products.json could not be loaded");
+
+            throw new Error(
+                "Could not load products.json"
+            );
+
         }
 
-        products = await response.json();
+        return response.json();
 
-        renderProductButtons();
-        updateCartUI();
+    })
 
-    } catch (error) {
+    .then(data => {
+
+        products = data;
+
+        displayProducts(products);
+
+        updateCart();
+
+    })
+
+    .catch(error => {
+
         console.error(error);
-        showToast("Products could not be loaded.");
+
+
+        document.getElementById(
+            "productGrid"
+        ).innerHTML = `
+
+            <div class="error-message">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <h3>
+                    Unable to load figures
+                </h3>
+
+                <p>
+                    Make sure products.json is in
+                    the same folder and use Live Server.
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+
+
+// ==========================================
+// DISPLAY PRODUCTS
+// ==========================================
+
+function displayProducts(list) {
+
+    const grid =
+        document.getElementById(
+            "productGrid"
+        );
+
+
+    grid.innerHTML = "";
+
+
+    if (list.length === 0) {
+
+        grid.innerHTML = `
+
+            <div class="error-message">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <h3>
+                    No figures found
+                </h3>
+
+                <p>
+                    Try another search.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
     }
-}
 
 
-// ============================================================
-// CART HELPER FUNCTIONS
-// ============================================================
+    list.forEach(product => {
 
-function saveCart() {
-    localStorage.setItem("divMartCart", JSON.stringify(cart));
-}
-
-
-function getProduct(id) {
-    return products.find(product => product.id === Number(id));
-}
+        const card =
+            document.createElement(
+                "article"
+            );
 
 
-function getTotalItems() {
-    return cart.reduce((total, item) => {
-        return total + item.quantity;
-    }, 0);
-}
+        card.className =
+            "product-card";
 
 
-function getSubtotal() {
-    return cart.reduce((total, item) => {
+        card.innerHTML = `
 
-        const product = getProduct(item.id);
+            <div class="product-image">
 
-        if (!product) {
-            return total;
-        }
-
-        return total + product.price * item.quantity;
-
-    }, 0);
-}
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    loading="lazy"
+                >
 
 
-function formatPrice(amount) {
+                <span class="product-tag">
 
-    return `Rs.${amount.toLocaleString("en-IN", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    })}`;
+                    ${product.category}
 
-}
+                </span>
 
-
-// ============================================================
-// CONNECT ADD TO CART BUTTONS
-// ============================================================
-
-function renderProductButtons() {
-
-    const cards = document.querySelectorAll(".product-card");
-
-    cards.forEach((card, index) => {
-
-        const product = products[index];
-
-        if (!product) return;
-
-        const button = card.querySelector("button");
-
-        if (!button) return;
-
-        button.onclick = function () {
-
-            addToCart(product.id);
-
-        };
+            </div>
 
 
-        // Show stock
+            <div class="product-info">
 
-        let stock = card.querySelector(".stock-info");
+                <span class="product-category">
 
-        if (!stock) {
+                    COLLECTIBLE
 
-            stock = document.createElement("p");
+                </span>
 
-            stock.className = "stock-info";
 
-            card.appendChild(stock);
+                <h3>
 
-        }
+                    ${product.name}
 
-        stock.textContent = `Stock: ${product.stock}`;
+                </h3>
+
+
+                <p>
+
+                    ${product.description}
+
+                </p>
+
+
+                <div class="product-bottom">
+
+
+                    <strong class="price">
+
+                        ${formatPrice(
+                            product.price
+                        )}
+
+                    </strong>
+
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart(
+                            ${product.id}
+                        )"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Add
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        grid.appendChild(card);
 
     });
 
 }
 
 
-// ============================================================
-// ADD PRODUCT TO CART
-// ============================================================
+
+// ==========================================
+// ADD TO CART
+// ==========================================
 
 function addToCart(id) {
 
-    const product = getProduct(id);
-
-    if (!product) return;
-
-
-    const existingItem = cart.find(item => item.id === product.id);
+    const product =
+        products.find(
+            item => item.id === id
+        );
 
 
-    // Product already exists
+    if (!product) {
 
-    if (existingItem) {
-
-        if (existingItem.quantity >= product.stock) {
-
-            showToast(
-                `Only ${product.stock} ${product.name} available.`
-            );
-
-            return;
-        }
-
-        existingItem.quantity++;
+        return;
 
     }
 
-    // New product
+
+    const existing =
+        cart.find(
+            item => item.id === id
+        );
+
+
+    if (existing) {
+
+        existing.quantity++;
+
+    }
 
     else {
 
         cart.push({
 
-            id: product.id,
+            ...product,
 
             quantity: 1
 
@@ -173,610 +248,315 @@ function addToCart(id) {
     }
 
 
-    saveCart();
+    updateCart();
 
-    updateCartUI();
-
-    showToast(`${product.name} added to cart.`);
+    openCart();
 
 }
 
 
-// ============================================================
-// CHANGE QUANTITY
-// ============================================================
 
-function changeQuantity(id, change) {
+// ==========================================
+// UPDATE CART
+// ==========================================
 
-    const item = cart.find(
-        item => item.id === Number(id)
-    );
+function updateCart() {
 
-    const product = getProduct(id);
+    displayCart();
 
+    updateCartCount();
 
-    if (!item || !product) return;
+    updatePrices();
 
-
-    const newQuantity =
-        item.quantity + change;
+}
 
 
-    // Remove product
 
-    if (newQuantity <= 0) {
+// ==========================================
+// CART COUNT
+// ==========================================
 
-        removeFromCart(id);
+function updateCartCount() {
 
-        return;
-    }
-
-
-    // Inventory limit
-
-    if (newQuantity > product.stock) {
-
-        showToast(
-            `Only ${product.stock} ${product.name} available.`
+    const count =
+        cart.reduce(
+            (sum, item) =>
+                sum + item.quantity,
+            0
         );
 
-        return;
-    }
 
-
-    item.quantity = newQuantity;
-
-    saveCart();
-
-    updateCartUI();
+    document.getElementById(
+        "cartCount"
+    ).textContent = count;
 
 }
 
 
-// ============================================================
-// REMOVE PRODUCT
-// ============================================================
 
-function removeFromCart(id) {
+// ==========================================
+// DISPLAY CART
+// ==========================================
 
-    cart = cart.filter(
-        item => item.id !== Number(id)
-    );
+function displayCart() {
 
-    saveCart();
+    const container =
+        document.getElementById(
+            "cartItems"
+        );
 
-    updateCartUI();
-
-}
-
-
-// ============================================================
-// CREATE CART UI
-// ============================================================
-
-function createCartUI() {
-
-    if (document.getElementById("cartButton")) {
-        return;
-    }
-
-
-    const wrapper = document.createElement("div");
-
-
-    wrapper.innerHTML = `
-
-        <!-- CART BUTTON -->
-
-        <button id="cartButton" class="cart-button">
-
-            🛒
-
-            <span id="cartCount">0</span>
-
-        </button>
-
-
-        <!-- CART BACKGROUND -->
-
-        <div id="cartOverlay"
-             class="cart-overlay">
-        </div>
-
-
-        <!-- CART DRAWER -->
-
-        <aside id="cartDrawer"
-               class="cart-drawer">
-
-
-            <div class="cart-header">
-
-                <div>
-
-                    <small>
-                        YOUR SELECTION
-                    </small>
-
-                    <h2>
-                        Your bag
-                        (<span id="bagCount">0</span>)
-                    </h2>
-
-                </div>
-
-
-                <button id="closeCart"
-                        class="cart-close">
-
-                    ×
-
-                </button>
-
-            </div>
-
-
-            <!-- CART PRODUCTS -->
-
-            <div id="cartItems"
-                 class="cart-items">
-
-            </div>
-
-
-            <!-- PROMO CODE -->
-
-            <div class="promo-section">
-
-                <label>
-                    PROMO CODE
-                </label>
-
-
-                <div class="promo-row">
-
-                    <input
-                        id="promoInput"
-                        type="text"
-                        placeholder="Try SAVE20"
-                    >
-
-
-                    <button id="promoButton">
-
-                        Apply
-
-                    </button>
-
-                </div>
-
-
-                <p id="promoMessage"
-                   class="promo-message">
-
-                </p>
-
-            </div>
-
-
-            <!-- PRICE SUMMARY -->
-
-            <div class="cart-summary">
-
-
-                <div>
-
-                    <span>
-                        Subtotal
-                    </span>
-
-                    <strong id="subtotal">
-                        Rs.0.00
-                    </strong>
-
-                </div>
-
-
-                <div id="discountRow"
-                     class="discount-row">
-
-                    <span>
-                        Discount (20%)
-                    </span>
-
-                    <strong id="discount">
-                        -Rs.0.00
-                    </strong>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        Estimated Tax (8%)
-                    </span>
-
-                    <strong id="tax">
-                        Rs.0.00
-                    </strong>
-
-                </div>
-
-
-                <hr>
-
-
-                <div class="grand-total">
-
-                    <span>
-                        Total
-                    </span>
-
-                    <strong id="grandTotal">
-                        Rs.0.00
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <!-- CHECKOUT BUTTON -->
-
-            <button id="checkoutButton"
-                    class="checkout-button">
-
-                Continue to checkout →
-
-            </button>
-
-
-        </aside>
-
-
-        <!-- CHECKOUT MODAL -->
-
-        <div id="checkoutOverlay"
-             class="checkout-overlay">
-
-
-            <div class="checkout-modal">
-
-
-                <button id="closeCheckout"
-                        class="checkout-close">
-
-                    ×
-
-                </button>
-
-
-                <div id="checkoutContent">
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-        <!-- TOAST -->
-
-        <div id="toast"
-             class="div-toast">
-
-        </div>
-
-    `;
-
-
-    document.body.appendChild(wrapper);
-
-
-    // Button events
-
-    document.getElementById("cartButton")
-        .onclick = openCart;
-
-
-    document.getElementById("closeCart")
-        .onclick = closeCart;
-
-
-    document.getElementById("cartOverlay")
-        .onclick = closeCart;
-
-
-    document.getElementById("promoButton")
-        .onclick = applyPromo;
-
-
-    document.getElementById("checkoutButton")
-        .onclick = startCheckout;
-
-
-    document.getElementById("closeCheckout")
-        .onclick = closeCheckout;
-
-}
-
-
-// ============================================================
-// UPDATE CART
-// ============================================================
-
-function updateCartUI() {
-
-    createCartUI();
-
-
-    const totalItems =
-        getTotalItems();
-
-
-    document.getElementById("cartCount")
-        .textContent = totalItems;
-
-
-    document.getElementById("bagCount")
-        .textContent = totalItems;
-
-
-    const cartItems =
-        document.getElementById("cartItems");
-
-
-    // EMPTY CART
 
     if (cart.length === 0) {
 
-        cartItems.innerHTML = `
+        container.innerHTML = `
 
             <div class="empty-cart">
 
-                <div>
-                    🛒
-                </div>
+                <i class="fa-solid fa-box-open"></i>
 
                 <h3>
-                    Your bag is empty
+                    Your cart is empty
                 </h3>
 
                 <p>
-                    Add some Marvel action figures
-                    to continue.
+                    Your next collectible is waiting.
                 </p>
 
             </div>
 
         `;
 
+        return;
+
     }
 
 
-    // CART HAS PRODUCTS
-
-    else {
-
-        cartItems.innerHTML = cart.map(item => {
-
-            const product =
-                getProduct(item.id);
+    container.innerHTML = "";
 
 
-            if (!product) return "";
+    cart.forEach(item => {
+
+        const row =
+            document.createElement(
+                "div"
+            );
 
 
-            return `
+        row.className =
+            "cart-item";
 
-                <div class="cart-item">
+
+        row.innerHTML = `
+
+            <img
+                src="${item.image}"
+                alt="${item.name}"
+            >
 
 
-                    <img
-                        src="${product.image}"
-                        alt="${product.name}"
+            <div class="cart-item-info">
+
+
+                <span>
+                    ${item.category}
+                </span>
+
+
+                <h4>
+                    ${item.name}
+                </h4>
+
+
+                <strong>
+                    ${formatPrice(
+                        item.price
+                    )}
+                </strong>
+
+
+                <div class="quantity">
+
+
+                    <button
+                        onclick="changeQuantity(
+                            ${item.id},
+                            -1
+                        )"
                     >
 
+                        −
 
-                    <div class="cart-item-details">
-
-
-                        <h3>
-                            ${product.name}
-                        </h3>
+                    </button>
 
 
-                        <p>
-                            ${formatPrice(product.price)}
-                        </p>
+                    <span>
+
+                        ${item.quantity}
+
+                    </span>
 
 
-                        <div class="quantity-row">
+                    <button
+                        onclick="changeQuantity(
+                            ${item.id},
+                            1
+                        )"
+                    >
 
+                        +
 
-                            <button
-                                onclick="changeQuantity(
-                                    ${product.id},
-                                    -1
-                                )">
+                    </button>
 
-                                −
-
-                            </button>
-
-
-                            <span>
-                                ${item.quantity}
-                            </span>
-
-
-                            <button
-                                onclick="changeQuantity(
-                                    ${product.id},
-                                    1
-                                )">
-
-                                +
-
-                            </button>
-
-
-                            <button
-                                class="remove-item"
-                                onclick="removeFromCart(
-                                    ${product.id}
-                                )">
-
-                                ×
-
-                            </button>
-
-
-                        </div>
-
-                    </div>
 
                 </div>
 
-            `;
 
-        }).join("");
+                <button
+                    class="remove"
+                    onclick="removeFromCart(
+                        ${item.id}
+                    )"
+                >
 
-    }
+                    Remove
 
-
-    // ========================================================
-    // CALCULATE PRICES
-    // ========================================================
-
-    const subtotal =
-        getSubtotal();
+                </button>
 
 
-    const discount =
-        promoApplied
-            ? subtotal * DISCOUNT_RATE
-            : 0;
+            </div>
+
+        `;
 
 
-    const taxableAmount =
-        subtotal - discount;
+        container.appendChild(row);
+
+    });
+
+}
 
 
-    const tax =
-        taxableAmount * TAX_RATE;
 
+// ==========================================
+// CHANGE QUANTITY
+// ==========================================
 
-    const total =
-        taxableAmount + tax;
+function changeQuantity(
+    id,
+    change
+) {
 
-
-    document.getElementById("subtotal")
-        .textContent =
-        formatPrice(subtotal);
-
-
-    document.getElementById("discount")
-        .textContent =
-        `-${formatPrice(discount)}`;
-
-
-    document.getElementById("tax")
-        .textContent =
-        formatPrice(tax);
-
-
-    document.getElementById("grandTotal")
-        .textContent =
-        formatPrice(total);
-
-
-    // Show/hide discount
-
-    document.getElementById("discountRow")
-        .style.display =
-        promoApplied
-            ? "flex"
-            : "none";
-
-
-    // Disable checkout when empty
-
-    document.getElementById("checkoutButton")
-        .disabled =
-        cart.length === 0;
-
-
-    // Promo message
-
-    const message =
-        document.getElementById(
-            "promoMessage"
+    const item =
+        cart.find(
+            item => item.id === id
         );
 
 
-    if (promoApplied) {
+    if (!item) {
 
-        message.textContent =
-            "✓ SAVE20 applied successfully.";
-
-        message.className =
-            "promo-message success";
+        return;
 
     }
 
-}
+
+    item.quantity += change;
 
 
-// ============================================================
-// OPEN CART
-// ============================================================
+    if (item.quantity <= 0) {
 
-function openCart() {
+        cart =
+            cart.filter(
+                item => item.id !== id
+            );
 
-    document.getElementById("cartDrawer")
-        .classList.add("open");
-
-
-    document.getElementById("cartOverlay")
-        .classList.add("show");
+    }
 
 
-    document.body.classList.add("no-scroll");
+    updateCart();
 
 }
 
 
-// ============================================================
-// CLOSE CART
-// ============================================================
 
-function closeCart() {
+// ==========================================
+// REMOVE PRODUCT
+// ==========================================
 
-    document.getElementById("cartDrawer")
-        .classList.remove("open");
+function removeFromCart(id) {
+
+    cart =
+        cart.filter(
+            item => item.id !== id
+        );
 
 
-    document.getElementById("cartOverlay")
-        .classList.remove("show");
-
-
-    document.body.classList.remove("no-scroll");
+    updateCart();
 
 }
 
 
-// ============================================================
-// APPLY PROMO CODE
-// ============================================================
 
-function applyPromo() {
+// ==========================================
+// PRICE CALCULATION
+// ==========================================
+
+function updatePrices() {
+
+    const subtotal =
+        cart.reduce(
+            (sum, item) =>
+                sum +
+                item.price *
+                item.quantity,
+            0
+        );
+
+
+    const discount =
+        discountApplied
+            ? subtotal * 0.10
+            : 0;
+
+
+    const total =
+        subtotal - discount;
+
+
+    document.getElementById(
+        "subtotal"
+    ).textContent =
+        formatPrice(subtotal);
+
+
+    document.getElementById(
+        "discount"
+    ).textContent =
+        formatPrice(discount);
+
+
+    document.getElementById(
+        "total"
+    ).textContent =
+        formatPrice(total);
+
+}
+
+
+
+// ==========================================
+// COUPON
+// ==========================================
+
+function applyCoupon() {
 
     const input =
         document.getElementById(
-            "promoInput"
+            "couponInput"
+        );
+
+
+    const message =
+        document.getElementById(
+            "couponMessage"
         );
 
 
@@ -786,1104 +566,317 @@ function applyPromo() {
             .toUpperCase();
 
 
-    const message =
-        document.getElementById(
-            "promoMessage"
-        );
+    if (code === "COLLECT10") {
 
-
-    if (code === PROMO_CODE) {
-
-        promoApplied = true;
-
-
-        localStorage.setItem(
-            "divMartPromo",
-            "true"
-        );
-
-
-        updateCartUI();
-
-
-        showToast(
-            "SAVE20 applied — 20% discount."
-        );
-
-    }
-
-    else {
-
-        promoApplied = false;
-
-
-        localStorage.removeItem(
-            "divMartPromo"
-        );
+        discountApplied = true;
 
 
         message.textContent =
-            "✕ Invalid promo code.";
+            "✓ COLLECT10 applied — 10% OFF";
 
 
         message.className =
-            "promo-message error";
-
-
-        updateCartUI();
-
-    }
-
-}
-
-
-// ============================================================
-// CHECKOUT
-// ============================================================
-
-let checkoutStep = 1;
-
-
-function startCheckout() {
-
-    if (cart.length === 0) {
-        return;
-    }
-
-
-    checkoutStep = 1;
-
-
-    closeCart();
-
-
-    renderCheckout();
-
-
-    document.getElementById(
-        "checkoutOverlay"
-    ).classList.add("show");
-
-
-    document.body.classList.add(
-        "no-scroll"
-    );
-
-}
-
-
-// ============================================================
-// CLOSE CHECKOUT
-// ============================================================
-
-function closeCheckout() {
-
-    document.getElementById(
-        "checkoutOverlay"
-    ).classList.remove("show");
-
-
-    document.body.classList.remove(
-        "no-scroll"
-    );
-
-}
-
-
-// ============================================================
-// FINAL TOTAL
-// ============================================================
-
-function getFinalTotal() {
-
-    const subtotal =
-        getSubtotal();
-
-
-    const discount =
-        promoApplied
-            ? subtotal * DISCOUNT_RATE
-            : 0;
-
-
-    const tax =
-        (subtotal - discount)
-        * TAX_RATE;
-
-
-    const total =
-        subtotal - discount + tax;
-
-
-    return formatPrice(total);
-
-}
-
-
-// ============================================================
-// RENDER CHECKOUT
-// ============================================================
-
-function renderCheckout() {
-
-    const content =
-        document.getElementById(
-            "checkoutContent"
-        );
-
-
-    // ========================================================
-    // STEP 1
-    // ========================================================
-
-    if (checkoutStep === 1) {
-
-        content.innerHTML = `
-
-            <div class="checkout-progress">
-
-                <span class="active">
-                    1. Details
-                </span>
-
-                <span>
-                    2. Payment
-                </span>
-
-                <span>
-                    3. Confirmation
-                </span>
-
-            </div>
-
-
-            <h2>
-                Checkout
-            </h2>
-
-
-            <p class="checkout-subtitle">
-                Enter your delivery details.
-            </p>
-
-
-            <form id="detailsForm"
-                  novalidate>
-
-
-                <label>
-
-                    Full Name
-
-                    <input
-                        id="customerName"
-                        required
-                        placeholder="Your full name"
-                    >
-
-                    <small class="validation"></small>
-
-                </label>
-
-
-                <label>
-
-                    Email
-
-                    <input
-                        id="customerEmail"
-                        type="email"
-                        required
-                        placeholder="example@email.com"
-                    >
-
-                    <small class="validation"></small>
-
-                </label>
-
-
-                <label>
-
-                    Phone
-
-                    <input
-                        id="customerPhone"
-                        inputmode="numeric"
-                        maxlength="10"
-                        required
-                        placeholder="10-digit phone number"
-                    >
-
-                    <small class="validation"></small>
-
-                </label>
-
-
-                <label>
-
-                    Address
-
-                    <textarea
-                        id="customerAddress"
-                        required
-                        placeholder="House / Street / Area">
-                    </textarea>
-
-                    <small class="validation"></small>
-
-                </label>
-
-
-                <div class="two-fields">
-
-
-                    <label>
-
-                        City
-
-                        <input
-                            id="customerCity"
-                            required
-                            placeholder="City"
-                        >
-
-                        <small class="validation"></small>
-
-                    </label>
-
-
-                    <label>
-
-                        PIN Code
-
-                        <input
-                            id="customerPin"
-                            inputmode="numeric"
-                            maxlength="6"
-                            required
-                            placeholder="6-digit PIN"
-                        >
-
-                        <small class="validation"></small>
-
-                    </label>
-
-
-                </div>
-
-
-                <button
-                    class="checkout-next"
-                    type="submit">
-
-                    Continue to Payment →
-
-                </button>
-
-
-            </form>
-
-        `;
-
-
-        attachDetailsValidation();
-
-    }
-
-
-    // ========================================================
-    // STEP 2
-    // ========================================================
-
-    if (checkoutStep === 2) {
-
-        content.innerHTML = `
-
-            <div class="checkout-progress">
-
-                <span class="done">
-                    1. Details
-                </span>
-
-                <span class="active">
-                    2. Payment
-                </span>
-
-                <span>
-                    3. Confirmation
-                </span>
-
-            </div>
-
-
-            <h2>
-                Payment
-            </h2>
-
-
-            <p class="checkout-subtitle">
-
-                Demo payment only —
-                no real money will be charged.
-
-            </p>
-
-
-            <form id="paymentForm"
-                  novalidate>
-
-
-                <label>
-
-                    Card Number
-
-                    <input
-                        id="cardNumber"
-                        inputmode="numeric"
-                        maxlength="19"
-                        placeholder="4242 4242 4242 4242"
-                        required
-                    >
-
-                    <small class="validation"></small>
-
-                </label>
-
-
-                <div class="two-fields">
-
-
-                    <label>
-
-                        Expiry
-
-                        <input
-                            id="cardExpiry"
-                            maxlength="5"
-                            placeholder="MM/YY"
-                            required
-                        >
-
-                        <small class="validation"></small>
-
-                    </label>
-
-
-                    <label>
-
-                        CVV
-
-                        <input
-                            id="cardCvv"
-                            inputmode="numeric"
-                            maxlength="3"
-                            placeholder="123"
-                            required
-                        >
-
-                        <small class="validation"></small>
-
-                    </label>
-
-
-                </div>
-
-
-                <div class="checkout-total">
-
-                    <span>
-                        Total to pay
-                    </span>
-
-                    <strong>
-                        ${getFinalTotal()}
-                    </strong>
-
-                </div>
-
-
-                <div class="checkout-actions">
-
-
-                    <button
-                        type="button"
-                        class="back-button"
-                        onclick="
-                            checkoutStep = 1;
-                            renderCheckout();
-                        ">
-
-                        ← Back
-
-                    </button>
-
-
-                    <button
-                        class="checkout-next"
-                        type="submit">
-
-                        Place Demo Order
-
-                    </button>
-
-
-                </div>
-
-
-            </form>
-
-        `;
-
-
-        attachPaymentValidation();
-
-    }
-
-
-    // ========================================================
-    // STEP 3
-    // ========================================================
-
-    if (checkoutStep === 3) {
-
-        const orderId =
-            "MAR-" +
-            new Date().getFullYear() +
-            "-" +
-            Math.floor(
-                10000 +
-                Math.random() * 90000
-            );
-
-
-        content.innerHTML = `
-
-            <div class="confirmation">
-
-
-                <div class="success-icon">
-
-                    ✓
-
-                </div>
-
-
-                <h2>
-                    Order Confirmed!
-                </h2>
-
-
-                <p>
-                    Thank you for shopping
-                    at DIV-Mart.
-                </p>
-
-
-                <div class="order-box">
-
-
-                    <p>
-
-                        <span>
-                            Order ID
-                        </span>
-
-                        <strong>
-                            ${orderId}
-                        </strong>
-
-                    </p>
-
-
-                    <p>
-
-                        <span>
-                            Total
-                        </span>
-
-                        <strong>
-                            ${getFinalTotal()}
-                        </strong>
-
-                    </p>
-
-
-                    <p>
-
-                        <span>
-                            Status
-                        </span>
-
-                        <strong>
-                            Demo Payment Successful
-                        </strong>
-
-                    </p>
-
-
-                </div>
-
-
-                <button
-                    class="checkout-next"
-                    onclick="finishOrder()">
-
-                    Continue Shopping
-
-                </button>
-
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-// ============================================================
-// VALIDATION HELPER
-// ============================================================
-
-function setValidation(
-    input,
-    message,
-    valid
-) {
-
-    const small =
-        input.parentElement
-            .querySelector(
-                ".validation"
-            );
-
-
-    if (valid) {
-
-        input.classList.add("valid");
-
-        input.classList.remove(
-            "invalid"
-        );
-
-        small.textContent =
-            "✓ Valid";
-
-        small.className =
-            "validation valid-text";
+            "success";
 
     }
 
     else {
 
-        input.classList.add(
-            "invalid"
-        );
+        discountApplied = false;
 
-        input.classList.remove(
-            "valid"
-        );
 
-        small.textContent =
-            message;
+        message.textContent =
+            "Invalid coupon. Try COLLECT10";
 
-        small.className =
-            "validation error-text";
+
+        message.className =
+            "error";
 
     }
 
 
-    return valid;
+    updatePrices();
 
 }
 
 
-// ============================================================
-// DETAILS VALIDATION
-// ============================================================
 
-function validateDetailsField(id) {
+// ==========================================
+// CATEGORY FILTER
+// ==========================================
 
-    const input =
-        document.getElementById(id);
+function filterCategory(
+    category,
+    button
+) {
 
+    document
+        .querySelectorAll(".category")
+        .forEach(btn => {
 
-    const value =
-        input.value.trim();
-
-
-    if (id === "customerName") {
-
-        return setValidation(
-            input,
-            "Enter your full name.",
-            value.length >= 2
-        );
-
-    }
-
-
-    if (id === "customerEmail") {
-
-        const validEmail =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                .test(value);
-
-
-        return setValidation(
-            input,
-            "Enter a valid email.",
-            validEmail
-        );
-
-    }
-
-
-    if (id === "customerPhone") {
-
-        return setValidation(
-            input,
-            "Enter 10 digits.",
-            /^\d{10}$/.test(value)
-        );
-
-    }
-
-
-    if (id === "customerAddress") {
-
-        return setValidation(
-            input,
-            "Enter your address.",
-            value.length >= 5
-        );
-
-    }
-
-
-    if (id === "customerCity") {
-
-        return setValidation(
-            input,
-            "Enter your city.",
-            value.length >= 2
-        );
-
-    }
-
-
-    if (id === "customerPin") {
-
-        return setValidation(
-            input,
-            "Enter a 6-digit PIN.",
-            /^\d{6}$/.test(value)
-        );
-
-    }
-
-
-    return true;
-
-}
-
-
-// ============================================================
-// ATTACH DETAILS VALIDATION
-// ============================================================
-
-function attachDetailsValidation() {
-
-    const fields = [
-
-        "customerName",
-
-        "customerEmail",
-
-        "customerPhone",
-
-        "customerAddress",
-
-        "customerCity",
-
-        "customerPin"
-
-    ];
-
-
-    fields.forEach(id => {
-
-        document.getElementById(id)
-            .addEventListener(
-                "input",
-                () => {
-
-                    validateDetailsField(id);
-
-                }
+            btn.classList.remove(
+                "active"
             );
 
-    });
+        });
 
 
-    document.getElementById(
-        "detailsForm"
-    ).addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
-
-            let valid = true;
-
-
-            fields.forEach(id => {
-
-                if (
-                    !validateDetailsField(id)
-                ) {
-
-                    valid = false;
-
-                }
-
-            });
-
-
-            if (valid) {
-
-                checkoutStep = 2;
-
-                renderCheckout();
-
-            }
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// PAYMENT VALIDATION
-// ============================================================
-
-function attachPaymentValidation() {
-
-    const card =
-        document.getElementById(
-            "cardNumber"
-        );
-
-
-    const expiry =
-        document.getElementById(
-            "cardExpiry"
-        );
-
-
-    const cvv =
-        document.getElementById(
-            "cardCvv"
-        );
-
-
-    card.addEventListener(
-        "input",
-        function() {
-
-            card.value =
-                card.value
-                    .replace(/\D/g, "")
-                    .slice(0, 16)
-                    .replace(
-                        /(.{4})/g,
-                        "$1 "
-                    )
-                    .trim();
-
-
-            validateCard();
-
-        }
+    button.classList.add(
+        "active"
     );
 
 
-    expiry.addEventListener(
-        "input",
-        function() {
+    if (category === "All") {
 
-            expiry.value =
-                expiry.value
-                    .replace(/\D/g, "")
-                    .slice(0, 4);
-
-
-            if (
-                expiry.value.length > 2
-            ) {
-
-                expiry.value =
-                    expiry.value.slice(0, 2)
-                    + "/" +
-                    expiry.value.slice(2);
-
-            }
-
-
-            validateExpiry();
-
-        }
-    );
-
-
-    cvv.addEventListener(
-        "input",
-        function() {
-
-            cvv.value =
-                cvv.value
-                    .replace(/\D/g, "")
-                    .slice(0, 3);
-
-
-            validateCvv();
-
-        }
-    );
-
-
-    document.getElementById(
-        "paymentForm"
-    ).addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
-
-            const validCard =
-                validateCard();
-
-
-            const validExpiry =
-                validateExpiry();
-
-
-            const validCvv =
-                validateCvv();
-
-
-            if (
-                validCard &&
-                validExpiry &&
-                validCvv
-            ) {
-
-                checkoutStep = 3;
-
-                renderCheckout();
-
-            }
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// CARD VALIDATION
-// ============================================================
-
-function validateCard() {
-
-    const input =
-        document.getElementById(
-            "cardNumber"
+        displayProducts(
+            products
         );
 
-
-    const digits =
-        input.value.replace(
-            /\D/g,
-            ""
-        );
-
-
-    const valid =
-        /^\d{16}$/.test(digits);
-
-
-    return setValidation(
-        input,
-        "Enter a valid 16-digit card number.",
-        valid
-    );
-
-}
-
-
-// ============================================================
-// EXPIRY VALIDATION
-// ============================================================
-
-function validateExpiry() {
-
-    const input =
-        document.getElementById(
-            "cardExpiry"
-        );
-
-
-    const value =
-        input.value.trim();
-
-
-    if (
-        !/^\d{2}\/\d{2}$/.test(value)
-    ) {
-
-        return setValidation(
-            input,
-            "Use MM/YY format.",
-            false
-        );
+        return;
 
     }
 
 
-    const [month, year] =
-        value.split("/").map(Number);
+    const filtered =
+        products.filter(
+            product =>
+                product.category ===
+                category
+        );
 
 
-    const valid =
-        month >= 1 &&
-        month <= 12 &&
-        year >= 26;
-
-
-    return setValidation(
-        input,
-        "Enter a valid expiry date.",
-        valid
+    displayProducts(
+        filtered
     );
 
 }
 
 
-// ============================================================
-// CVV VALIDATION
-// ============================================================
 
-function validateCvv() {
+// ==========================================
+// SEARCH
+// ==========================================
 
-    const input =
-        document.getElementById(
-            "cardCvv"
+function searchProducts() {
+
+    const value =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const filtered =
+        products.filter(
+            product =>
+
+                product.name
+                    .toLowerCase()
+                    .includes(value)
+
+                ||
+
+                product.category
+                    .toLowerCase()
+                    .includes(value)
+
+                ||
+
+                product.description
+                    .toLowerCase()
+                    .includes(value)
+
         );
 
 
-    const valid =
-        /^\d{3}$/.test(
-            input.value
-        );
-
-
-    return setValidation(
-        input,
-        "Enter a 3-digit CVV.",
-        valid
+    displayProducts(
+        filtered
     );
 
 }
 
 
-// ============================================================
-// FINISH ORDER
-// ============================================================
 
-function finishOrder() {
+// ==========================================
+// OPEN CART
+// ==========================================
 
-    cart = [];
+function openCart() {
 
-    promoApplied = false;
-
-
-    localStorage.removeItem(
-        "divMartCart"
-    );
-
-
-    localStorage.removeItem(
-        "divMartPromo"
-    );
+    document
+        .getElementById(
+            "cartSidebar"
+        )
+        .classList.add(
+            "open"
+        );
 
 
-    closeCheckout();
+    document
+        .getElementById(
+            "cartOverlay"
+        )
+        .classList.add(
+            "show"
+        );
 
 
-    updateCartUI();
-
-
-    showToast(
-        "Thank you! Your order has been placed."
-    );
+    document.body.style.overflow =
+        "hidden";
 
 }
 
 
-// ============================================================
-// TOAST MESSAGE
-// ============================================================
 
-function showToast(message) {
+// ==========================================
+// CLOSE CART
+// ==========================================
 
-    const toast =
-        document.getElementById(
-            "toast"
+function closeCart() {
+
+    document
+        .getElementById(
+            "cartSidebar"
+        )
+        .classList.remove(
+            "open"
         );
 
 
-    if (!toast) return;
+    document
+        .getElementById(
+            "cartOverlay"
+        )
+        .classList.remove(
+            "show"
+        );
 
 
-    toast.textContent =
-        message;
+    document.body.style.overflow =
+        "auto";
+
+}
 
 
-    toast.classList.add(
-        "show"
-    );
+
+// ==========================================
+// SCROLL
+// ==========================================
+
+function scrollToProducts() {
+
+    document
+        .getElementById(
+            "figures"
+        )
+        .scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+}
+
+
+
+// ==========================================
+// SEARCH BUTTON
+// ==========================================
+
+function focusSearch() {
+
+    scrollToProducts();
 
 
     setTimeout(
-        function() {
+        () => {
 
-            toast.classList.remove(
-                "show"
-            );
+            document
+                .getElementById(
+                    "searchInput"
+                )
+                .focus();
 
         },
-        2500
+        500
     );
 
 }
 
 
-// ============================================================
-// START APPLICATION
-// ============================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+// ==========================================
+// CHECKOUT
+// ==========================================
 
-        createCartUI();
+function checkout() {
 
-        loadProducts();
+    if (cart.length === 0) {
+
+        alert(
+            "Your collection cart is empty!"
+        );
+
+        return;
 
     }
-);
+
+
+    const total =
+        document.getElementById(
+            "total"
+        ).textContent;
+
+
+    alert(
+
+        "ORDER CONFIRMED!\n\n" +
+
+        "Your collectible order total is " +
+
+        total +
+
+        ".\n\n" +
+
+        "Thank you for shopping at FIGUREVERSE!"
+
+    );
+
+
+    cart = [];
+
+
+    discountApplied = false;
+
+
+    document.getElementById(
+        "couponInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "couponMessage"
+    ).textContent = "";
+
+
+    updateCart();
+
+}
+
+
+
+// ==========================================
+// FORMAT PRICE
+// ==========================================
+
+function formatPrice(price) {
+
+    return "₹" +
+        price.toLocaleString(
+            "en-IN"
+        );
+
+}

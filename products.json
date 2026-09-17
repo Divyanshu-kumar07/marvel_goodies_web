@@ -1,50 +1,73 @@
 [
     {
         "id": 1,
-        "name": "Iron Man",
-        "price": 999,
-        "image": "iron_man1.jpeg"
+        "name": "Deadpool Collector Figure",
+        "category": "Marvel",
+        "price": 3499,
+        "image": "deadpool.jpeg",
+        "description": "Premium red-and-black collectible figure with dual-sword display pose."
     },
+
     {
         "id": 2,
-        "name": "Dr. Doom",
-        "price": 1299,
-        "image": "doom.jpeg"
+        "name": "Spider-Man Iron Spider",
+        "category": "Marvel",
+        "price": 3299,
+        "image": "spiderman.jpeg",
+        "description": "Detailed Spider-Man figure with articulated mechanical spider arms."
     },
+
     {
         "id": 3,
-        "name": "Spider-Man",
-        "price": 1199,
-        "image": "spiderman.jpeg"
+        "name": "Thanos Infinity Figure",
+        "category": "Marvel",
+        "price": 4299,
+        "image": "thanos.jpeg",
+        "description": "Powerful villain collectible featuring the iconic Infinity Gauntlet."
     },
+
     {
         "id": 4,
-        "name": "Captain America",
-        "price": 1399,
-        "image": "cap.jpeg"
+        "name": "Iron Man Battle Figure",
+        "category": "Marvel",
+        "price": 3999,
+        "image": "iron_man1.jpeg",
+        "description": "Armored Iron Man collectible designed for a dynamic display."
     },
+
     {
         "id": 5,
-        "name": "Thor",
-        "price": 1199,
-        "image": "thor.jpeg"
+        "name": "Doctor Doom Premium Figure",
+        "category": "Marvel",
+        "price": 4599,
+        "image": "doom.jpeg",
+        "description": "Detailed armored Doctor Doom figure for serious collectors."
     },
+
     {
         "id": 6,
-        "name": "Thanos",
-        "price": 1099,
-        "image": "thanos.jpeg"
+        "name": "Captain America Shield Figure",
+        "category": "Marvel",
+        "price": 3799,
+        "image": "cap.jpeg",
+        "description": "Classic Captain America collectible with iconic shield display."
     },
+
     {
         "id": 7,
-        "name": "Wolverine",
-        "price": 1099,
-        "image": "wolverine.jpeg"
+        "name": "Wolverine Claw Figure",
+        "category": "Marvel",
+        "price": 3699,
+        "image": "wolverine.jpeg",
+        "description": "Dynamic Wolverine collectible with signature claws."
     },
+
     {
         "id": 8,
-        "name": "Deadpool",
-        "price": 2099,
-        "image": "deadpool.jpeg"
+        "name": "Thor Battle Figure",
+        "category": "Marvel",
+        "price": 3899,
+        "image": "thor.jpeg",
+        "description": "Powerful Thor collectible with a cinematic armored design."
     }
 ]
