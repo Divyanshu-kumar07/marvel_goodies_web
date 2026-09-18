@@ -70,9 +70,89 @@
         "image": "thor.jpeg",
         "description": "Powerful Thor collectible with a cinematic armored design."
     },
-
     {
         "id": 9,
+        "name": "Black Panther Vibranium Figure",
+        "category": "Marvel",
+        "price": 3999,
+        "image": "black_panther.jpeg",
+        "description": "Detailed Black Panther collectible featuring his iconic Vibranium suit."
+    },
+
+    {
+        "id": 10,
+        "name": "Hulk Smash Figure",
+        "category": "Marvel",
+        "price": 4299,
+        "image": "hulk.jpeg",
+        "description": "Dynamic Hulk collectible designed to capture his smashing power."
+    },
+
+
+    {
+        "id":11, 
+        "name": "Scarlet Witch Mystic Figure",
+        "category": "Marvel",
+        "price": 3599,
+        "image": "scarlet_witch.jpeg",
+        "description": "Mystical Scarlet Witch collectible featuring her iconic powers."
+    },
+
+    {
+        "id": 13,
+        "name": "Ultron Figure",
+        "category": "Marvel",
+        "price": 3699,
+        "image": "ultron.jpeg",
+        "description": "Detailed Ultron collectible with a sleek android design."
+    },
+
+    {
+        "id": 14,
+        "name": "Black Widow Stealth Figure",
+        "category": "Marvel",
+        "price": 3499,
+        "image": "black_widow.jpeg",
+        "description": "Stealthy Black Widow collectible featuring her iconic combat pose."
+    },
+
+    {
+        "id": 15,
+        "name": "Doctor Strange Mystic Figure",
+        "category": "Marvel",
+        "price": 3399,
+        "image": "doctor_strange.jpeg",
+        "description": "Mystical Doctor Strange collectible featuring his iconic spellcasting pose."
+    },
+
+    {
+        "id": 16,
+        "name": "Venom Figure",
+        "category": "Marvel",
+        "price": 3299,
+        "image": "venom.jpeg",
+        "description": "Detailed Venom collectible featuring his iconic symbiote design."
+    },
+    {
+        "id": 17,
+        "name": "Daredevil Figure",
+        "category": "Marvel",
+        "price": 3999,
+        "image": "daredevil.jpeg",
+        "description": "Detailed Daredevil collectible featuring his iconic masked design."
+    },
+
+    {
+        "id": 18,
+        "name": "Superman Classic Figure",
+        "category": "DC",
+        "price": 3799,
+        "image": "superman.jpeg",
+        "description": "Iconic Superman collectible featuring the classic red and blue suit."
+
+    },
+    {
+        "id": 19,
         "name": "Batman Arkham Knight Figure",
         "category": "DC",
         "price": 3999,
@@ -81,16 +161,7 @@
     },
 
     {
-        "id": 10,
-        "name": "Superman Classic Figure",
-        "category": "DC",
-        "price": 3799,
-        "image": "superman.jpeg",
-        "description": "Iconic Superman collectible featuring the classic red and blue suit."
-    },
-
-    {
-        "id": 11,
+        "id": 21,
         "name": "The Joker Premium Figure",
         "category": "DC",
         "price": 3599,
@@ -99,7 +170,7 @@
     },
 
     {
-        "id": 12,
+        "id": 22,
         "name": "Wonder Woman Warrior Figure",
         "category": "DC",
         "price": 3899,
@@ -108,7 +179,7 @@
     },
 
     {
-        "id": 13,
+        "id": 23,
         "name": "The Flash Speed Figure",
         "category": "DC",
         "price": 3399,
@@ -117,11 +188,95 @@
     },
 
     {
-        "id": 14,
+        "id": 24,
         "name": "Aquaman Battle Figure",
         "category": "DC",
-        "price": 3699,
+        "price": 3099,
         "image": "aquaman.jpeg",
         "description": "Detailed Aquaman collectible featuring his legendary trident."
+    },
+
+    {
+         "id": 25,
+        "name": "Green Lantern Figure",
+        "category": "DC",
+        "price": 3699,
+        "image": "green_lantern.jpeg",
+        "description": "Detailed Green Lantern collectible featuring his iconic ring."
+
+    },
+
+    {
+         "id": 26,
+        "name": "Nightwing Battle Figure",
+        "category": "DC",
+        "price": 3099,
+        "image": "nightwing.jpeg",
+        "description": "Detailed Nightwing collectible featuring his iconic bat symbol."
+    },
+    {
+        "id": 27,
+        "name": "Cyborg Tech Figure",
+        "category": "DC",
+        "price": 3499,
+        "image": "cyborg.jpeg",
+        "description": "Detailed Cyborg collectible featuring his advanced cybernetic design."
+    },
+    {
+        "id": 28,
+        "name": "Darksied Figure",
+        "category": "DC",
+        "price": 3299,
+        "image": "darksied.jpeg",
+        "description": "Detailed Darksied collectible featuring his iconic dark appearance."
+    },
+    {
+        "id": 29,
+        "name": "Shazam Lightning Figure",
+        "category": "DC",
+        "price": 3199,
+        "image": "shazam.jpeg",
+        "description": "Dynamic Shazam collectible featuring his iconic lightning powers."
+    },
+    {
+        "id": 30,
+        "name": "Black Adam Figure",
+        "category": "DC",
+        "price": 3099,
+        "image": "black_adam.jpeg",
+        "description": "Detailed Black Adam collectible featuring his iconic dark appearance."
+    },
+    {
+        "id": 31,
+        "name": "Bane Figure",
+        "category": "DC",
+        "price": 2999,
+        "image": "bane.jpeg",
+        "description": "Detailed Bane collectible featuring his iconic villainous design."
+    },
+    {
+        "id": 32,
+        "name": "Superman black suit Figure",
+        "category": "DC",
+        "price": 2899,
+        "image": "black_superman.jpeg",
+        "description": "Dressed in his iconic black suit, this Superman collectible captures the hero in his most formidable form."
+    },
+    {
+        "id": 33,
+        "name": "Blue Bettle Figure",
+        "category": "DC",
+        "price": 2799,
+        "image": "blue_bettle.jpeg",
+        "description": "Dynamic Blue Bettle collectible featuring his iconic insect-like design."
+    },
+    {
+        "id": 34,
+        "name": "Martian Manhunter Figure",
+        "category": "DC",
+        "price": 2699,
+        "image": "matian_manhunter.jpeg",
+        "description": "Detailed Martian Manhunter collectible featuring his iconic hero design."
     }
+
 ]
