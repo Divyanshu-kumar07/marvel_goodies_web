@@ -867,3 +867,338 @@ function formatPrice(price) {
         );
 
 }
+
+// =========================================================
+// MARVEL + DC UNIVERSE SLIDER
+// =========================================================
+
+const universeTrack =
+    document.querySelector(".universe-track");
+
+const universeCards =
+    document.querySelectorAll(".universe-card");
+
+const universeDots =
+    document.querySelectorAll(".universe-dot");
+
+const previousUniverse =
+    document.querySelector(".universe-prev");
+
+const nextUniverse =
+    document.querySelector(".universe-next");
+
+let currentUniverse = 0;
+
+
+// =========================================================
+// SHOW SLIDE
+// =========================================================
+
+function showUniverse(index) {
+
+    if (!universeTrack || !universeCards.length) {
+        return;
+    }
+
+    // Keep index inside range
+
+    if (index < 0) {
+        index = universeCards.length - 1;
+    }
+
+    if (index >= universeCards.length) {
+        index = 0;
+    }
+
+    currentUniverse = index;
+
+
+    const card = universeCards[index];
+
+
+    // Scroll selected card into view
+
+    card.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+    });
+
+
+    // Active card
+
+    universeCards.forEach((item, i) => {
+
+        item.classList.toggle(
+            "active",
+            i === index
+        );
+
+    });
+
+
+    // Active dots
+
+    universeDots.forEach((dot, i) => {
+
+        dot.classList.toggle(
+            "active",
+            i === index
+        );
+
+    });
+
+}
+
+
+// =========================================================
+// NEXT
+// =========================================================
+
+if (nextUniverse) {
+
+    nextUniverse.addEventListener(
+        "click",
+        () => {
+
+            showUniverse(
+                currentUniverse + 1
+            );
+
+        }
+    );
+
+}
+
+
+// =========================================================
+// PREVIOUS
+// =========================================================
+
+if (previousUniverse) {
+
+    previousUniverse.addEventListener(
+        "click",
+        () => {
+
+            showUniverse(
+                currentUniverse - 1
+            );
+
+        }
+    );
+
+}
+
+
+// =========================================================
+// DOT CLICK
+// =========================================================
+
+universeDots.forEach((dot, index) => {
+
+    dot.addEventListener(
+        "click",
+        () => {
+
+            showUniverse(index);
+
+        }
+    );
+
+});
+
+
+// =========================================================
+// CARD CLICK
+// =========================================================
+
+universeCards.forEach(card => {
+
+    card.addEventListener(
+        "click",
+        () => {
+
+            const universe =
+                card.dataset.universe;
+
+            if (!universe) {
+                return;
+            }
+
+
+            // Find matching category button
+
+            const categoryButtons =
+                document.querySelectorAll(
+                    ".category"
+                );
+
+
+            let matchingButton = null;
+
+
+            categoryButtons.forEach(button => {
+
+                const text =
+                    button.textContent
+                        .trim()
+                        .toLowerCase();
+
+                if (
+                    text ===
+                    universe.toLowerCase()
+                ) {
+
+                    matchingButton = button;
+
+                }
+
+            });
+
+
+            // Filter products
+
+            if (matchingButton) {
+
+                filterCategory(
+                    universe,
+                    matchingButton
+                );
+
+            }
+
+
+            // Scroll to products
+
+            const productsSection =
+                document.getElementById(
+                    "figures"
+                );
+
+
+            if (productsSection) {
+
+                setTimeout(() => {
+
+                    productsSection.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }, 150);
+
+            }
+
+        }
+    );
+
+});
+
+
+// =========================================================
+// TOUCH SWIPE
+// =========================================================
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+
+if (universeTrack) {
+
+    universeTrack.addEventListener(
+        "touchstart",
+        event => {
+
+            touchStartX =
+                event.changedTouches[0].screenX;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    universeTrack.addEventListener(
+        "touchend",
+        event => {
+
+            touchEndX =
+                event.changedTouches[0].screenX;
+
+
+            const difference =
+                touchStartX - touchEndX;
+
+
+            // Minimum swipe distance
+
+            if (Math.abs(difference) < 50) {
+                return;
+            }
+
+
+            // Swipe left
+
+            if (difference > 0) {
+
+                showUniverse(
+                    currentUniverse + 1
+                );
+
+            }
+
+
+            // Swipe right
+
+            else {
+
+                showUniverse(
+                    currentUniverse - 1
+                );
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+}
+
+
+// =========================================================
+// KEYBOARD SUPPORT
+// =========================================================
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        // Only react when the slider exists
+
+        if (!universeTrack) {
+            return;
+        }
+
+
+        if (event.key === "ArrowRight") {
+
+            showUniverse(
+                currentUniverse + 1
+            );
+
+        }
+
+
+        if (event.key === "ArrowLeft") {
+
+            showUniverse(
+                currentUniverse - 1
+            );
+
+        }
+
+    }
+);

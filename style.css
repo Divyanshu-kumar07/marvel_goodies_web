@@ -454,7 +454,7 @@ nav a:hover {
 
     height: 100%;
 
-    object-fit: contain;
+    object-fit: fill;
 
     
 }
@@ -515,11 +515,16 @@ nav a:hover {
 .hero-card-overlay strong {
 
     font-family: Georgia, serif;
-
+    text-align: center;
     font-size: 24px;
 
 }
 
+
+/* ==========================================
+   UNIVERSE SWIPE CARDS
+========================================== */
+.universe-section{padding:85px 8% 70px;background:#0c0c10;border-top:1px solid #202027;overflow:hidden}.universe-heading span{display:block;margin-top:12px;color:#777781;font-size:12px}.universe-carousel{max-width:1050px;margin:45px auto 0;display:flex;align-items:center;gap:18px}.universe-track{flex:1;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;outline:none}.universe-card{min-height:315px;position:relative;overflow:hidden;border:1px solid #292930;border-radius:14px;padding:0;text-align:left;color:white;background:#121217;cursor:pointer;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}.universe-card:hover,.universe-card:focus-visible{transform:translateY(-7px);outline:none}.marvel-card:hover,.marvel-card:focus-visible{border-color:#ff4d6d;box-shadow:0 20px 55px rgba(255,77,109,.16)}.dc-card:hover,.dc-card:focus-visible{border-color:#4d8dff;box-shadow:0 20px 55px rgba(77,141,255,.16)}.universe-card-art{height:170px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.marvel-card .universe-card-art{background:radial-gradient(circle,#4a1b2b 0%,#1b1016 55%,#101014 100%)}.dc-card .universe-card-art{background:radial-gradient(circle,#182d4f 0%,#101722 55%,#101014 100%)}.universe-symbol{width:112px;height:112px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.7);border-radius:50%;font-family:Georgia,serif;font-size:42px;font-weight:900;letter-spacing:-2px;transform:rotate(-6deg);background:rgba(0,0,0,.18)}.dc-card .universe-symbol{font-size:30px;letter-spacing:1px;border-radius:8px;transform:rotate(-4deg)}.universe-card-content{padding:22px 24px 24px}.universe-card-content small{color:#777781;font-size:8px;font-weight:bold;letter-spacing:2px}.universe-card-content h3{margin:6px 0 5px;font-family:Georgia,serif;font-size:31px}.marvel-card .universe-card-content h3,.marvel-card .universe-card-content strong{color:#ff4d6d}.dc-card .universe-card-content h3,.dc-card .universe-card-content strong{color:#6ea2ff}.universe-card-content p{color:#85858f;font-size:12px;line-height:1.55;margin-bottom:17px}.universe-card-content strong{font-size:10px;letter-spacing:1.4px}.universe-card-content strong i{margin-left:7px}.universe-arrow{flex:0 0 44px;width:44px;height:44px;border:1px solid #303039;border-radius:50%;background:#121217;color:#ddd;cursor:pointer;transition:.25s}.universe-arrow:hover{background:#ff4d6d;border-color:#ff4d6d;color:white}.universe-dots{display:flex;justify-content:center;gap:8px;margin-top:24px}.universe-dot{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:#3b3b44;cursor:pointer;transition:.25s}.universe-dot.active{width:24px;border-radius:5px;background:#ff4d6d}
 
 /* ==========================================
    STATS
@@ -1004,6 +1009,9 @@ nav a:hover {
 
 }
 
+
+
+.product-image.image-fallback::after{content:attr(data-fallback);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:34px;font-weight:900;letter-spacing:3px;color:#d9d9df;background:radial-gradient(circle at 50% 35%,#24242d,#101014 70%)}
 
 /* ==========================================
    ABOUT
@@ -1620,6 +1628,7 @@ footer {
 ========================================== */
 
 @media (max-width: 850px) {
+    .universe-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;touch-action:pan-x}.universe-track::-webkit-scrollbar{display:none}.universe-card{flex:0 0 82%;scroll-snap-align:center}.universe-arrow{display:none}
 
     nav {
 
@@ -1703,6 +1712,7 @@ footer {
 
 
 @media (max-width: 500px) {
+    .universe-section{padding-left:5%;padding-right:5%}.universe-card{flex-basis:88%}
 
     .navbar {
 

@@ -161,20 +161,18 @@
             <div class="hero-card">
 
                 <img
-                    src="marvel.jpeg"
-                    alt="MARVEL collectible"
+                    src="marvelxdc.jpeg"
+                    alt="Superhero collectible"
                 >
 
 
                 <div class="hero-card-overlay">
 
-                    <span>
-                        FEATURED COLLECTIBLE
+                    <span><strong> SUPERHERO FEATURED COLLECTIBLE</strong>
+                       
                     </span>
 
-                    <strong>
-                        MARVEL
-                    </strong>
+                    
 
                 </div>
 
@@ -186,6 +184,33 @@
 
 
 
+    <!-- ================= UNIVERSE SWIPE ================= -->
+    <section class="universe-section" id="universes">
+        <div class="section-heading universe-heading">
+            <p>CHOOSE YOUR UNIVERSE</p>
+            <h2>Pick Your Side</h2>
+            <span>Swipe or use the arrows. Tap a card to explore that universe.</span>
+        </div>
+        <div class="universe-carousel" id="universeCarousel">
+            <button class="universe-arrow prev" type="button" aria-label="Previous universe"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="universe-track" id="universeTrack" tabindex="0" aria-label="Universe cards">
+                <button class="universe-card marvel-card" type="button" data-universe="Marvel" aria-label="Explore Marvel figures">
+                    <div class="universe-card-art"><span class="universe-symbol">M</span></div>
+                    <div class="universe-card-content"><small>THE HEROIC UNIVERSE</small><h3>MARVEL</h3><p>Avengers, mutants, anti-heroes and legends.</p><strong>EXPLORE MARVEL <i class="fa-solid fa-arrow-right"></i></strong></div>
+                </button>
+                <button class="universe-card dc-card" type="button" data-universe="DC" aria-label="Explore DC figures">
+                    <div class="universe-card-art"><span class="universe-symbol">DC</span></div>
+                    <div class="universe-card-content"><small>THE LEGENDARY UNIVERSE</small><h3>DC</h3><p>Batman, Superman, Joker and Justice League icons.</p><strong>EXPLORE DC <i class="fa-solid fa-arrow-right"></i></strong></div>
+                </button>
+            </div>
+            <button class="universe-arrow next" type="button" aria-label="Next universe"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="universe-dots" aria-label="Universe selection">
+            <button class="universe-dot active" type="button" data-index="0" aria-label="Show Marvel"></button>
+            <button class="universe-dot" type="button" data-index="1" aria-label="Show DC"></button>
+        </div>
+    </section>
+
     <!-- ================= STATS ================= -->
 
     <section class="stats">
@@ -193,7 +218,7 @@
         <div>
 
             <strong>
-                8
+                14
             </strong>
 
             <span>
@@ -206,7 +231,7 @@
         <div>
 
             <strong>
-                4
+                8
             </strong>
 
             <span>
@@ -285,6 +310,14 @@
 
                 Marvel
 
+            </button>
+
+            <button
+                class="category"
+                onclick="filterCategory('DC', this)"
+            >
+                <i class="fa-solid fa-shield-halved"></i>
+                DC
             </button>
 
         </div>

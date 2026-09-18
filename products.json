@@ -69,5 +69,59 @@
         "price": 3899,
         "image": "thor.jpeg",
         "description": "Powerful Thor collectible with a cinematic armored design."
+    },
+
+    {
+        "id": 9,
+        "name": "Batman Arkham Knight Figure",
+        "category": "DC",
+        "price": 3999,
+        "image": "batman.jpeg",
+        "description": "Detailed Batman collectible inspired by the legendary Arkham Knight design."
+    },
+
+    {
+        "id": 10,
+        "name": "Superman Classic Figure",
+        "category": "DC",
+        "price": 3799,
+        "image": "superman.jpeg",
+        "description": "Iconic Superman collectible featuring the classic red and blue suit."
+    },
+
+    {
+        "id": 11,
+        "name": "The Joker Premium Figure",
+        "category": "DC",
+        "price": 3599,
+        "image": "joker.jpeg",
+        "description": "Premium Joker collectible with a dramatic Gotham-inspired display pose."
+    },
+
+    {
+        "id": 12,
+        "name": "Wonder Woman Warrior Figure",
+        "category": "DC",
+        "price": 3899,
+        "image": "wonderwoman.jpeg",
+        "description": "Powerful Wonder Woman collectible featuring her iconic warrior design."
+    },
+
+    {
+        "id": 13,
+        "name": "The Flash Speed Figure",
+        "category": "DC",
+        "price": 3399,
+        "image": "flash.jpeg",
+        "description": "Dynamic Flash collectible designed to capture the speedster in action."
+    },
+
+    {
+        "id": 14,
+        "name": "Aquaman Battle Figure",
+        "category": "DC",
+        "price": 3699,
+        "image": "aquaman.jpeg",
+        "description": "Detailed Aquaman collectible featuring his legendary trident."
     }
 ]
